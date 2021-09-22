@@ -10,6 +10,7 @@
     <div>
         <div>
             <h1>Edit this Quiz</h1>
+            <p>{{ this_quiz.title }} {{ this_quiz.description }}</p>
             <form  method="POST" action="update_quiz">
                 {% csrf_token %}
                 <label for="title">Quiz Name </label> <input name="title" type="text">

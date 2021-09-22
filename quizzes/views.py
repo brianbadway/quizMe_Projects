@@ -12,14 +12,15 @@ def index(request):
 def dashboard(request):     
     context = {
         'all_quizzes': Quiz.objects.all(),
+        'this_user' : User.objects.get(id =request.session['user_id'])
     }
     return render(request, 'quizzes/dashboard.html', context)
 
 
 def quiz_info(request, quiz_id):
-    user = request.user
+    user = request.session['user_id']
     context = {
-        'this_user': User.objects.get(id=user.id),
+        'this_user': User.objects.get(id=request.session['user_id']),
         'this_quiz': Quiz.objects.get(id=quiz_id)
     }
     return render(request, 'quizzes/Quiz_info.html', context)
@@ -30,7 +31,7 @@ def create_score(request, quiz_id):
     # Insert answer validator
     # redirect if errors
     else:
-        if request.user.id:
+        if 'user_id' in request.session:
             this_quiz = Quiz.objects.get(id=quiz_id)
             total_questions = 0
             score = 0
@@ -53,13 +54,13 @@ def create_score(request, quiz_id):
             print(score)
             print(total_questions)
             print(request.session['score'])
-        return redirect(f'/quizzes/{quiz_id}/result')
+        return redirect(f'/{quiz_id}/result')
 
 def result(request, quiz_id):
     return render(request, 'quizzes/Quiz_Result.html')
 
 def save_result(request, quiz_id):
-    user = User.objects.get(id=request.user.id)
+    user = User.objects.get(id=request.session['user_id'])
     quiz = Quiz.objects.get(id=quiz_id)
     Result.objects.create(
         percent_score = request.POST['percent_score'],
@@ -73,7 +74,7 @@ def save_result(request, quiz_id):
     del request.session['total_questions']
     del request.session['percent_score']
     del request.session['wrong_answers']
-    return redirect('/quizzes/dashboard')
+    return redirect('/dashboard')
     
 def randomizer(request):
     context = {
@@ -82,13 +83,16 @@ def randomizer(request):
     return render(request, 'randomizer.html', context)
 
 def retake_quiz_info(request, quiz_id, result_id):
-    user = request.user
+    user = request.session['user_id']
     context = {
-        'this_user': User.objects.get(id=user.id),
+        'this_user': User.objects.get(id=request.session['user_id']),
         'this_quiz': Quiz.objects.get(id=quiz_id),
         'this_result': Result.objects.get(id=result_id)
     }
     return render(request, 'quizzes/retake_quiz.html', context)
+
+def split_quiz(request, quiz_id):
+    pass
 
 def new_score(request, quiz_id, result_id):
     if request.method != "POST":
@@ -96,7 +100,7 @@ def new_score(request, quiz_id, result_id):
     # Insert answer validator
     # redirect if errors
     else:
-        if request.user.id:
+        if 'user_id' in request.session:
             this_quiz = Quiz.objects.get(id=quiz_id)
             total_questions = 0
             score = 0
@@ -119,7 +123,7 @@ def new_score(request, quiz_id, result_id):
             print(score)
             print(total_questions)
             print(request.session['score'])
-        return redirect(f'/quizzes/{quiz_id}/{result_id}/new_result')
+        return redirect(f'/{quiz_id}/{result_id}/new_result')
 
 def new_result(request, quiz_id, result_id):
     return render(request, 'quizzes/new_result.html')
@@ -135,13 +139,13 @@ def overwrite_result(request, quiz_id, result_id):
     del request.session['total_questions']
     del request.session['percent_score']
     del request.session['wrong_answers']
-    return redirect('/quizzes/dashboard')
+    return redirect('/dashboard')
 
 def new_quiz(request):
     return render(request, 'quizzes/new_quiz.html')
 
 def create_quiz(request):
-    user = User.objects.get(id=request.user.id)
+    user = User.objects.get(id=request.session['user_id'])
     n = Quiz.objects.create(
         title = request.POST['title'],
         description = request.POST['description'],
@@ -149,13 +153,13 @@ def create_quiz(request):
     )
     n.save()
     quiz_id = n.id
-    return redirect(f'/quizzes/{quiz_id}/new_question')
+    return redirect(f'/{quiz_id}/new_question')
 
 def new_question(request, quiz_id):
     return render(request, 'quizzes/new_question.html')
 
 def create_question(request, quiz_id):
-    user = User.objects.get(id=request.user.id)
+    user = User.objects.get(id=request.session['user_id'])
     quiz = Quiz.objects.get(id=quiz_id)
     q = Question.objects.create(
         prompt = request.POST['prompt'],
@@ -164,7 +168,7 @@ def create_question(request, quiz_id):
     )
     q.save()
     question_id = q.id
-    return redirect(f'/quizzes/{quiz_id}/{question_id}/new_answer')
+    return redirect(f'/{quiz_id}/{question_id}/new_answer')
 
 def new_answer(request, quiz_id, question_id):
     context = {
@@ -186,9 +190,9 @@ def create_answer(request, quiz_id, question_id):
         total_answers += 1
 
     if total_answers < 2:
-        return redirect(f'/quizzes/{quiz_id}/{question_id}/new_answer')
+        return redirect(f'/{quiz_id}/{question_id}/new_answer')
     else:
-        return redirect('/quizzes/dashboard')
+        return redirect('/dashboard')
 
 def edit_quiz(request, quiz_id):
     context = {
@@ -199,7 +203,7 @@ def edit_quiz(request, quiz_id):
 def delete_quiz(request, quiz_id):
     quiz = Quiz.objects.get(id=quiz_id)
     quiz.delete()
-    return redirect('/quizzes/dashboard')
+    return redirect('/dashboard')
 
 def update_quiz(request, quiz_id):
     # validator?
@@ -207,7 +211,7 @@ def update_quiz(request, quiz_id):
     quiz.title = request.POST['title']
     quiz.description = request.POST['description']
     quiz.save()
-    return redirect('/quizzes/dashboard')
+    return redirect('/dashboard')
 
 def edit_question(request, quiz_id, question_id):
     context = {
@@ -218,15 +222,15 @@ def edit_question(request, quiz_id, question_id):
 def delete_question(request, quiz_id, question_id):
     question = Question.objects.get(id=question_id)
     question.delete()
-    return redirect(f'/quizzes/{quiz_id}/edit_quiz')
+    return redirect(f'/{quiz_id}/edit_quiz')
 
 def update_question(request, quiz_id, question_id):
     question = Question.objects.get(id=question_id)
     question.prompt = request.POST['prompt']
     question.save()
-    return redirect(f'/quizzes/{quiz_id}/edit_question/{question_id}')
+    return redirect(f'/{quiz_id}/edit_question/{question_id}')
 
 def delete_answer(request, quiz_id, question_id, answer_id):
     answer = Answer.objects.get(id=answer_id)
     answer.delete()
-    return redirect(f'/quizzes/{quiz_id}/edit_question/{question_id}')
+    return redirect(f'/{quiz_id}/edit_question/{question_id}')
