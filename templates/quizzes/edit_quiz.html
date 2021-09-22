@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h1>Edit this Quiz</h1>
+            <form  method="POST" action="update_quiz">
+                {% csrf_token %}
+                <label for="title">Quiz Name </label> <input name="title" type="text">
+                <label for="description"> Quiz Description </label> <input name="description" type="text">
+                <button class="btn btn-success" type="submit">Update Quiz</button>
+            </form>
+            <a class="btn btn-outline-danger" href="delete_quiz" method="POST">Delete Quiz</a>
+        </div>
+        <div>
+            <h3>Questions in this Quiz</h3>
+            {% for question in this_quiz.has_questions.all%}
+                <p>{{question.prompt}}</p>
+                <a class="btn btn-outline-danger" href="edit_question/{{question.id}}" method="POST">Edit Question and Answers</a>
+                <a class="btn btn-outline-danger" href="delete_question/{{question.id}}" method="POST">Delete Question</a>
+            {% endfor %}
+        </div>
+        <div>
+            <h3> Add a Question to this Quiz</h3>
+            <form  method="POST" action="create_question">
+                {% csrf_token %}
+                <label for="prompt"> Question </label> <input name="prompt" type="text">
+                <button class="btn btn-success" type="submit">Create Question</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
