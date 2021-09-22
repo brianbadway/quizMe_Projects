@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+        <div>
+            <h1>Quiz Results</h1>
+        </div>
+        <div>
+            <h3>Score:</h3>
+            <p>Percentage: {{request.session.percent_score}}%</p>
+            <p>Correct Answers: {{request.session.score}}</p>
+            <p>Incorrect Answers: {{request.session.wrong_answers}}</p>
+            <p>Total Questions:{{request.session.total_questions}}</p>
+        </div>
+        <div>
+            <form action="save_result" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="percent_score" value="{{request.session.percent_score}}">
+                <input type="hidden" name="correct_answers" value="{{request.session.score}}">
+                <input type="hidden" name="wrong_answers" value="{{request.session.wrong_answers}}">
+                <input type="hidden" name="total_questions" value="{{request.session.total_questions}}">
+                <button class="btn btn-success" type="submit">Save Score Results</button>
+            </form>
+        </div>
+        <div>
+            <p><a class="btn btn-primary bar" href="">Try Again</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="flex flex-center vh-100 bg-primary">
+        <div class="text-center">
+            <h1 class="mb-2">Welcome to Quiz App!</h1>
+            <a class="btn btn-primary" href="{% url 'login' %}">Login Here</a>
+        </div>
+    </div>
+{% endblock %}

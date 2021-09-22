@@ -1,0 +1,123 @@
+/* Globals */
+
+:root {
+  --primary: green;
+  --primary-light: #1bd11b;
+  --primary-bg: white;
+  --secondary-bg: whitesmoke;
+  --base-font: Arial;
+} 
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--base-font);
+  background-color: var(--secondary-bg);
+}
+
+a {
+  color: var(--primary);
+  outline: none;
+}
+
+
+/* Utilities */
+
+.text-center {text-align: center}
+
+.bg-primary {background-color: var(--primary-bg)}
+.bg-secondary {background-color: var(--secondary-bg)}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.py-1 {padding: 10px 0}
+.py-2 {padding: 20px 0}
+.py-3 {padding: 30px 0}
+.py-4 {padding: 40px 0}
+.py-5 {padding: 50px 0}
+
+.mb-1 {margin-bottom: 10px}
+.mb-2 {margin-bottom: 20px}
+.mb-3 {margin-bottom: 30px}
+.mb-4 {margin-bottom: 40px}
+.mb-5 {margin-bottom: 50px}
+
+.vh-100 {min-height: 100vh}
+.w-100 {width: 100%}
+
+/* Buttons */
+
+.btn {
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  color: white;
+  background-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-light)
+}
+
+
+/* Forms */
+
+label {
+  display: block;
+  margin-bottom: 7.5px;
+}
+
+input:not([type="checkbox"]),
+textarea,
+select {
+  padding: 10px;
+  font-family: var(--base-font);
+  border-radius: 5px;
+  border: none;
+  box-shadow: inset 0 0 2.5px grey;
+  max-width: 100%;
+  width: 100%;
+  outline: none;
+}
+
+input:not([type="checkbox"]):hover,
+textarea:hover,
+select:hover,
+input:not([type="checkbox"]):focus,
+textarea:focus,
+select:focus {
+  box-shadow: inset 0 0 2.5px var(--primary);
+}
+
+.form {
+  background-color: var(--primary-bg);
+  max-width: 600px;
+  padding: 15px;
+  margin: auto;
+  box-shadow: 0 2.5px 5px grey;
+  border-radius: 10px;
+}
+
+.field {
+  width: 100%;
+  margin-bottom: 15px;
+}

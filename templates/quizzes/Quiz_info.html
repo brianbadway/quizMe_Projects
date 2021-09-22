@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method='post' action='create_score/'>
+        {% csrf_token %}
+        <p>{{this_quiz.title}}</p>
+        {% for question in this_quiz.has_questions.all%}
+        <div>
+        <label for="question">{{question.prompt}}</label>
+        </div>
+            {% for has_answer in question.has_answers.all %}
+            <div>
+                <div>
+                    <input type="radio" name="question_{{question.id}}_{{question.prompt}}" value="{{has_answer.correct}}">
+                    <label for="gridRadios1">
+                        {{has_answer.text}}
+                    </label>
+                </div>
+            </div>
+            {% endfor %}    
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
