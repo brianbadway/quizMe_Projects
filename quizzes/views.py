@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, HttpResponse
 
 from users.models import User
@@ -9,14 +8,14 @@ from .models import Quiz, Question, Answer, Result
 def index(request):
     return render(request, 'quizzes/quiz_index.html')
 
-@login_required
+
 def dashboard(request):     
     context = {
         'all_quizzes': Quiz.objects.all(),
     }
     return render(request, 'quizzes/dashboard.html', context)
 
-@login_required
+
 def quiz_info(request, quiz_id):
     user = request.user
     context = {
