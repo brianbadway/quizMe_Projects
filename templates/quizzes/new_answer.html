@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h1>Add an answer to your quiz!</h1>
+            <form  method="POST" action="create_answer">
+                {% csrf_token %}
+                <label for="text"> Answer </label> <input name="text" type="text">
+                <input type="hidden" name="correct" value="False">
+                <!-- hidden correct input "False" MUST be loaded above "True" -->
+                <label for="correct"> Correct Answer </label> <input name="correct" type="checkbox" value="True">
+                <button class="btn btn-success" type="submit">Create Answer</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -121,3 +121,24 @@ select:focus {
   width: 100%;
   margin-bottom: 15px;
 }
+
+.message {
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.message-list {
+  list-style: none;
+}
+
+.message.error {
+  background-color: #ffe2e2;
+  color: red;
+}
+
+.message.success {
+  background-color: #d4ffd4;
+  color: green;
+}
