@@ -1,24 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form method='post' action='new_score/{{this_result.id}}'>
-        {% csrf_token %}
-        <p>{{this_quiz.title}}</p>
-        {% for question in this_quiz.has_questions.all%}
-        <div>
-        <label for="question">{{question.prompt}}</label>
-        </div>
-            {% for has_answer in question.has_answers.all %}
-            <div>
-                <div>
-                    <input type="radio" name="question_{{question.id}}_{{question.prompt}}" value="{{has_answer.correct}}">
-                    <label for="gridRadios1">
-                        {{has_answer.text}}
-                    </label>
-                </div>
+    <div class="container py-5">
+        <form method='post' action='new_score/{{this_result.id}}'>
+            {% csrf_token %}
+            <h1>{{ this_quiz.title }}</h1>
+            <div class="form-group mb-2">
+                {% for question in this_quiz.has_questions.all%}
+                    <label for="question">{{question.prompt}}</label>
+                    {% for has_answer in question.has_answers.all %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="question_{{question.id}}_{{question.prompt}}" value="{{has_answer.correct}}">
+                            <label class="form-check-label" for="gridRadios1">{{has_answer.text}}</label>
+                        </div>
+                    {% endfor %}    
+                {% endfor %}
             </div>
-            {% endfor %}    
-        {% endfor %}
-        <button type="submit">Submit</button>
-    </form>
+            <button class="btn btn-success" type="submit">Submit</button>
+        </form>
+    </div>
 {% endblock %}

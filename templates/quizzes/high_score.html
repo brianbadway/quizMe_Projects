@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <div>
-            <h1>high score</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container py-5">
+        <h1>High Scores</h1>
+        <table class="table">
             {% for result in this_quiz.results_saved.all %}
-                {{result.percent_score}}
+                <td>{{ result.percent_score }}</td>
             {% endfor %}
-        </div>
+        </table>
     </div>
-</body>
-</html>
+{% endblock %}

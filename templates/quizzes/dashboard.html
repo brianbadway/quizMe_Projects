@@ -4,12 +4,13 @@
 
 {% block content %}
     <div class="container pt-5">
-        <h1>Your Dashboard</h1>
+        <h1 class="mb-3">Your Dashboard</h1>
+
+        <div class="bg-light border d-flex justify-content-between p-3 mb-2">
+            <a class="btn btn-success" href="new_quiz">Create new Quiz</a><a href="logout" class="btn">Logout</a> 
+        </div>
+        
         <table class="table">
-            <div class="bg-light border d-flex justify-content-between p-3">
-                <a class="btn btn-success" href="new_quiz">Create new Quiz</a><a href="logout" class="btn">Logout</a> 
-            </div>
-            <br>
             <thead>
                 <th>Quiz</th>
                 <th>Description</th>
@@ -18,22 +19,17 @@
                 <th>Actions</th>
             </thead>
             <tbody>
-            {% for quiz in all_quizzes %}   
-            <tr> 
-                <td><a href="/{{quiz.id}}/split_quiz">{{ quiz.title }}</a></td>
-                <br>                    
-                <td>{{ quiz.description  }}</td>
-                <br>                    
-                <td>{{ quiz.created_by.first_name  }} {{ quiz.created_by.last_name  }}</td>
-                <br>                  
-                <td><p>{{ this_user.has_results }} <a href="/{{quiz.id}}/high_score">High Scores</a> </p></td>
-                <br>
-                
-                {% if quiz.created_by.id == request.session.user_id %}                    
-                <td><a href="/{{quiz.id}}/edit_quiz">Edit</a> | <a href="/{{quiz.id}}/delete_quiz">Delete</a></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
+                {% for quiz in all_quizzes %}   
+                    <tr> 
+                        <td><a href="/{{quiz.id}}/split_quiz">{{ quiz.title }}</a></td>
+                        <td>{{ quiz.description  }}</td>
+                        <td>{{ quiz.created_by.first_name  }} {{ quiz.created_by.last_name  }}</td>
+                        <td>{{ this_user.has_results }} <a href="/{{quiz.id}}/high_score">High Scores</a></td>
+                        {% if quiz.created_by.id == request.session.user_id %}                    
+                            <td><a href="/{{quiz.id}}/edit_quiz">Edit</a> | <a href="/{{quiz.id}}/delete_quiz">Delete</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
