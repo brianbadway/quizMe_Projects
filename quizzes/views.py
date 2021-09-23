@@ -53,6 +53,10 @@ def delete_quiz(request, quiz_id):
 
 # Quiz Question CRUD
 
+def new_question(request, quiz_id):
+    return render(request, 'quizzes/new_question.html')
+
+
 def create_question(request, quiz_id):
     user = User.objects.get(id=request.session['user_id'])
     quiz = Quiz.objects.get(id=quiz_id)
@@ -64,10 +68,6 @@ def create_question(request, quiz_id):
     question.save()
     question_id = question.id
     return redirect(f'/{quiz_id}/{question_id}/new_answer')
-
-
-def new_question(request, quiz_id):
-    return render(request, 'quizzes/new_question.html')
 
 
 def quiz_info(request, quiz_id):
@@ -162,7 +162,7 @@ def create_score(request, quiz_id):
                     score += 1
                 else:
                     score += 0
-            percent_score = (score*100)/total_questions
+            percent_score = (score * 100) / total_questions
             percent_score = int(percent_score)
             wrong_answers = total_questions - score
             request.session['score'] = score
