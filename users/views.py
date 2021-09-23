@@ -3,15 +3,17 @@ from django.contrib import messages
 from .models import * 
 import bcrypt
 
+
 def index(request):
     return render(request, 'registration/login.html')
+
 
 def to_create(request):
     return render(request,'registration/register.html')
 
+
 def register(request):
     errors = User.objects.register_validator(request.POST)
-
     if len (errors):
         for key, value in errors.items():
             messages.error(request, value)
@@ -26,8 +28,10 @@ def register(request):
     request.session['user_id'] = user.id
     return redirect('/dashboard')
 
+
 def login_render(request):
     return render(request, 'registration/login.html')
+
 
 def login(request):  
     errors = User.objects.login_validator(request.POST)
@@ -39,6 +43,7 @@ def login(request):
 
     request.session['user_id'] = user[0].id
     return redirect('/dashboard')
+
 
 def logout(request):
     request.session.clear()

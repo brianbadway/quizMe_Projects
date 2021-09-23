@@ -5,10 +5,6 @@ from users.models import User
 from .models import Quiz, Question, Answer, Result
 
 
-def index(request):
-    return render(request, 'quizzes/quiz_index.html')
-
-
 def dashboard(request):     
     context = {
         'all_quizzes': Quiz.objects.all(),
@@ -16,6 +12,22 @@ def dashboard(request):
     }
     return render(request, 'quizzes/dashboard.html', context)
 
+
+# CRUD: Create Read Update Delete
+
+# Quiz CRUD
+
+def create_question(request, quiz_id):
+    user = User.objects.get(id=request.session['user_id'])
+    quiz = Quiz.objects.get(id=quiz_id)
+    q = Question.objects.create(
+        prompt = request.POST['prompt'],
+        created_by = user,
+        quiz = quiz
+    )
+    q.save()
+    question_id = q.id
+    return redirect(f'/{quiz_id}/{question_id}/new_answer')
 
 def quiz_info(request, quiz_id):
     user = request.session['user_id']
@@ -164,18 +176,6 @@ def create_quiz(request):
 
 def new_question(request, quiz_id):
     return render(request, 'quizzes/new_question.html')
-
-def create_question(request, quiz_id):
-    user = User.objects.get(id=request.session['user_id'])
-    quiz = Quiz.objects.get(id=quiz_id)
-    q = Question.objects.create(
-        prompt = request.POST['prompt'],
-        created_by = user,
-        quiz = quiz
-    )
-    q.save()
-    question_id = q.id
-    return redirect(f'/{quiz_id}/{question_id}/new_answer')
 
 def new_answer(request, quiz_id, question_id):
     context = {
