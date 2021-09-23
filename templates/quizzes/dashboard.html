@@ -27,13 +27,13 @@
             <tbody>
             {% for quiz in all_quizzes %}   
             <tr> 
-                <td><a href="{{ quiz.id }}">{{ quiz.title }}</a></td>
+                <td><a href="/{{quiz.id}}/split_quiz">{{ quiz.title }}</a></td>
                 <br>                    
                 <td>{{ quiz.description  }}</td>
                 <br>                    
                 <td>{{ quiz.created_by.first_name  }} {{ quiz.created_by.last_name  }}</td>
                 <br>                  
-                <td><p>{{ this_user.has_results }}</p></td>
+                <td><p>{{ this_user.has_results }} <a href="/{{quiz.id}}/high_score">High Scores</a> </p></td>
                 <br>
                 
                 {% if quiz.created_by.id == request.session.user_id %}                    
