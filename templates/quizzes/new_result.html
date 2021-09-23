@@ -18,7 +18,7 @@
                 <input type="hidden" name="wrong_answers" value="{{request.session.wrong_answers}}">
                 <input type="hidden" name="total_questions" value="{{request.session.total_questions}}">
                 <button class="btn btn-success" type="submit">Save New Score Results</button>
-                <p><a class="btn btn-info" href="{{ quiz.id }}">Try Again</a></p>
+                <p><a class="btn btn-info" href="/{{ quiz.id }}/{{ result.id }}/">Try Again</a></p>
             </form>
         </div>
     </div>
