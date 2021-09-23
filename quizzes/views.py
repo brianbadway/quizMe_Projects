@@ -92,7 +92,14 @@ def retake_quiz_info(request, quiz_id, result_id):
     return render(request, 'quizzes/retake_quiz.html', context)
 
 def split_quiz(request, quiz_id):
-    pass
+    print(quiz_id)
+    resultarray = Result.objects.filter(quiz_id=quiz_id, user_id=request.session['user_id'])
+    if len(resultarray) == 0:
+        print('here')
+        return redirect(f'/{quiz_id}/')
+    else:
+        result = resultarray[0]
+        return redirect(f'/{quiz_id}/{result.id}')
 
 def new_score(request, quiz_id, result_id):
     if request.method != "POST":
@@ -234,3 +241,10 @@ def delete_answer(request, quiz_id, question_id, answer_id):
     answer = Answer.objects.get(id=answer_id)
     answer.delete()
     return redirect(f'/{quiz_id}/edit_question/{question_id}')
+
+def high_score(request, quiz_id):
+    context = {
+        'this_quiz': Quiz.objects.get(id=quiz_id),
+        'all_results': Result.objects.all()
+    }
+    return render(request, 'quizzes/high_score.html')

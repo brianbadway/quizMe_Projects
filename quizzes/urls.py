@@ -26,4 +26,6 @@ urlpatterns = [
     path('<int:quiz_id>/edit_question/<int:question_id>/update_question', views.update_question),
     path('<int:quiz_id>/edit_question/<int:question_id>/delete_answer/<int:answer_id>', views.delete_answer),
     path('<int:quiz_id>/edit_question/create_answer/<int:question_id>', views.create_answer),
+    path('<int:quiz_id>/split_quiz', views.split_quiz),
+    path('<int:quiz_id>/high_score', views.high_score),
 ]
