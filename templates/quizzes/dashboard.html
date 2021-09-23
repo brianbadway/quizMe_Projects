@@ -4,8 +4,8 @@
 
 {% block content %}
     <div class="container pt-5">
-        <h1 class="mb-3">Your Dashboard</h1>
-
+        <h1 class="mb-3">Welcome {{this_user.first_name}}!</h1>
+        <h3 class="mb-3">Quizzes:</h3>
         <div class="bg-light border d-flex justify-content-between p-3 mb-2">
             <a class="btn btn-success" href="new_quiz">Create new Quiz</a><a href="logout" class="btn">Logout</a> 
         </div>
@@ -15,7 +15,7 @@
                 <th>Quiz</th>
                 <th>Description</th>
                 <th>Creator</th>
-                <th>High Score</th>
+                <th>High Scores</th>
                 <th>Actions</th>
             </thead>
             <tbody>
@@ -24,7 +24,7 @@
                         <td><a href="/{{quiz.id}}/split_quiz">{{ quiz.title }}</a></td>
                         <td>{{ quiz.description  }}</td>
                         <td>{{ quiz.created_by.first_name  }} {{ quiz.created_by.last_name  }}</td>
-                        <td>{{ this_user.has_results }} <a href="/{{quiz.id}}/high_score">High Scores</a></td>
+                        <td><a href="/{{quiz.id}}/high_score">High Scores</a></td>
                         {% if quiz.created_by.id == request.session.user_id %}                    
                             <td><a href="/{{quiz.id}}/edit_quiz">Edit</a> | <a href="/{{quiz.id}}/delete_quiz">Delete</a></td>
                         {% endif %}

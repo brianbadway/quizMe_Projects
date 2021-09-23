@@ -251,8 +251,11 @@ def delete_answer(request, quiz_id, question_id, answer_id):
     return redirect(f'/{quiz_id}/edit_question/{question_id}')
 
 def high_score(request, quiz_id):
+    some_quiz = Quiz.objects.get(id=quiz_id)
+    quiz_order = some_quiz.results_saved.all().order_by("-percent_score")
     context = {
         'this_quiz': Quiz.objects.get(id=quiz_id),
-        'all_results': Result.objects.all()
+        'all_results': Result.objects.all(),
+        'score_list' : quiz_order
     }
-    return render(request, 'quizzes/high_score.html')
+    return render(request, 'quizzes/high_score.html', context)
